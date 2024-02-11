@@ -8,4 +8,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ICategoryRepository extends JpaRepository<Category, Long> {
     Page<Category> findAll(Pageable pageable);
+
+    Boolean existsByNameContainingIgnoreCase(String name);
+
+    Boolean existsByNameContainingIgnoreCaseAndIdNot(String name, Long id);
 }

@@ -27,7 +27,7 @@ public class Category {
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    @Column(columnDefinition = "BOOLEAN", nullable = false)
+    @Column(columnDefinition = "TINYINT DEFAULT 1", nullable = false)
     private Boolean status;
 
     @OneToMany(mappedBy = "category")
