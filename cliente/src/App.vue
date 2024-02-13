@@ -15,13 +15,7 @@
         <div class="grid-container">
           <!-- Sidebar -->
           <b-col sm="3">
-            <b-sidebar
-              z-index="-1"
-              shadow
-              visible
-              no-close-on-route-change
-              no-header-close
-            >
+            <b-sidebar z-index="-1" shadow visible no-close-on-route-change no-header-close>
               <b-container fluid>
                 <b-nav vertical class="pt-5">
                   <p>
@@ -47,10 +41,10 @@
                     <b-link :to="{ name: 'detalles' }"> Detalles </b-link>
                   </b-nav-item>
                   <b-nav-item>
-                    <b-link :to="{name: 'formulario'}">Formulario</b-link>
+                    <b-link :to="{ name: 'formulario' }">Formulario</b-link>
                   </b-nav-item>
                   <b-nav-item>
-                    <b-link :to="{name: 'pelicula'}">Pelicula</b-link>
+                    <b-link :to="{ name: 'pelicula' }">Pelicula</b-link>
                   </b-nav-item>
                 </b-nav>
               </b-container>
@@ -68,12 +62,14 @@
                 </p>
                 <img src="src\assets\gatitio.jpg" alt="Imagen" />
                 <img src="src\assets\appa.png" alt="Imagen" />
-                <router-view></router-view>
               </div>
             </div>
           </b-col>
         </div>
       </b-row>
+    </b-container>
+    <b-container>
+      <router-view></router-view>
     </b-container>
   </div>
 </template>

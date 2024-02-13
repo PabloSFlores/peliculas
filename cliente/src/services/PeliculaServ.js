@@ -30,9 +30,9 @@ const getMovie = async () => {
   }
 };
 
-const changeStatus = async (movieId, status) => {
+const changeStatus = async (movieId) => {
   try {
-    const response = await axios.patch(api + movieId , { status: status})
+    const response = await axios.patch(api + movieId)
     console.log("Change status!", response);
     return response.data;
   } catch (error) {
