@@ -77,7 +77,7 @@ export default {
     return {
       pagination: {
         page: 1,
-        size: 5,
+        size: 3,
         sort: "id",
         direction: "asc"
       },
