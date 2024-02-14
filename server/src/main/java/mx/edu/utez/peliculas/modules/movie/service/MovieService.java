@@ -29,7 +29,7 @@ public class MovieService {
     @Transactional(readOnly = true)
     public ResponseApi<Page<Movie>> findAll(Pageable pageable, SearchMovieDto searchMovieDto) {
         Page<Movie> movies;
-        if (searchMovieDto == null) {
+        if (searchMovieDto == null || searchMovieDto.getTitle() == null) {
             movies = this.iMovieRepository.findAll(pageable);
         } else if (searchMovieDto.getCategoryId() == null) {
             movies = this.iMovieRepository.findAllByTitleContainingIgnoreCaseAndDirectorContainingIgnoreCaseAndPublishDateBetween(

@@ -2,7 +2,7 @@
 </script>
 
 <template>
-  <b-container fluid>
+  <b-container>
     <router-view />
   </b-container>
 </template>
