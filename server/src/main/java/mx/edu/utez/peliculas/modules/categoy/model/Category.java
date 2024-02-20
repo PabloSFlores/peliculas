@@ -1,5 +1,6 @@
 package mx.edu.utez.peliculas.modules.categoy.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -31,6 +32,6 @@ public class Category {
     private Boolean status;
 
     @OneToMany(mappedBy = "category")
-    @JsonIgnoreProperties({"category"})
+    @JsonIgnore
     private List<Movie> movies;
 }

@@ -29,8 +29,19 @@ public class MovieService {
     @Transactional(readOnly = true)
     public ResponseApi<Page<Movie>> findAll(Pageable pageable, SearchMovieDto searchMovieDto) {
         Page<Movie> movies;
-        if (searchMovieDto == null || searchMovieDto.getTitle() == null) {
+        if (searchMovieDto == null) {
             movies = this.iMovieRepository.findAll(pageable);
+        } else if (searchMovieDto.getCategoryId() == null && (searchMovieDto.getFirstDate() == null || searchMovieDto.getSecondDate() == null)) {
+            movies = this.iMovieRepository.findAllByTitleContainingIgnoreCaseAndDirectorContainingIgnoreCase(
+                    searchMovieDto.getTitle(),
+                    searchMovieDto.getDirector(),
+                    pageable);
+        } else if (searchMovieDto.getFirstDate() == null || searchMovieDto.getSecondDate() == null) {
+            movies = this.iMovieRepository.findAllByTitleContainingIgnoreCaseAndDirectorContainingIgnoreCaseAndCategory_Id(
+                    searchMovieDto.getTitle(),
+                    searchMovieDto.getDirector(),
+                    searchMovieDto.getCategoryId(),
+                    pageable);
         } else if (searchMovieDto.getCategoryId() == null) {
             movies = this.iMovieRepository.findAllByTitleContainingIgnoreCaseAndDirectorContainingIgnoreCaseAndPublishDateBetween(
                     searchMovieDto.getTitle(),

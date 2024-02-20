@@ -35,10 +35,10 @@ const updateMovie = async (movieData) => {
     }
 };
 
-const getMovies = async (params) => {
+const getMovies = async (params, body) => {
     try {
-        const pagination = params ? `?page=${params?.page || 0}&size=${params?.size || 10}&sort=${params?.sort || "id"}&direction=${params?.direction || "asc"}` : '';
-        const response = await axios.post(`${api}paged/${pagination}`, {});
+        const pagination = params ? `?page=${params?.page || 0}&size=${params?.size || 10}&sort=${params?.sort || "id"},${params?.direction || "asc"}` : '';
+        const response = await axios.post(`${api}paged/${pagination}`, body);
         return response.data;
     } catch (error) {
         throw error;

@@ -128,7 +128,6 @@ export default {
                 console.error(error);
             } finally {
                 this.closeModal();
-                this.$emit('getMovies');
             }
         },
         closeModal() {
