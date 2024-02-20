@@ -61,9 +61,9 @@
     <b-row v-if="movies.length > 0">
       <b-col cols="12">
         <b-row>
-          <b-col cols="12" sm="6" md="4" lg="4" v-for="movie in movies" :key="movie.id">
+          <b-col cols="12" sm="4" md="4" lg="3" v-for="movie in movies" :key="movie.id">
             <b-card :title="movie.title" img-src="https://picsum.photos/600/300/?image=25" img-alt="Image" img-top
-              tag="article" style="max-width: 20rem" class="mb-2">
+              tag="article" style="max-width: 40rem" class="mb-2">
               <b-card-text>Description: {{ movie.description }}</b-card-text>
               <b-card-text>Director: {{ movie.director }}</b-card-text>
               <b-card-text>Publish Date: {{ movie.publishDate }}</b-card-text>
