@@ -61,22 +61,26 @@
     <b-row v-if="movies.length > 0">
       <b-col cols="12">
         <b-row>
-          <b-col cols="12" sm="4" md="4" lg="3" v-for="movie in movies" :key="movie.id">
-            <b-card :title="movie.title" img-src="https://picsum.photos/600/300/?image=25" img-alt="Image" img-top
-              tag="article" style="max-width: 40rem" class="mb-2">
-              <b-card-text>Description: {{ movie.description }}</b-card-text>
-              <b-card-text>Director: {{ movie.director }}</b-card-text>
-              <b-card-text>Publish Date: {{ movie.publishDate }}</b-card-text>
-              <b-card-text>Category: {{ movie.category.name }}</b-card-text>
-              <b-card-text>Status:
-                {{ movie.status ? "Habilitado" : "Deshabilitado" }}</b-card-text>
-              <b-row class="d-flex flex-row-reverse">
-                <b-button @click="changeStatus(movie)" class="ml-2">
-                  {{ movie.status ? "Deshabilitar" : "Habilitar" }}</b-button>
-                <b-button @click="updateMovie(movie)"> Actualizar </b-button>
-              </b-row>
-            </b-card>
-          </b-col>
+          <transition-group name="zoom" tag="div" class="d-flex flex-row flex-wrap">
+            <b-col cols="12" sm="4" md="4" lg="3" v-for="movie in movies" :key="movie.id">
+              <transition name="fade-status">
+              <b-card :title="movie.title" img-src="https://picsum.photos/600/300/?image=25" img-alt="Image" img-top
+                tag="article" style="max-width: 40rem" class="mb-2" v-if="movie.status">
+                <b-card-text>Description: {{ movie.description }}</b-card-text>
+                <b-card-text>Director: {{ movie.director }}</b-card-text>
+                <b-card-text>Publish Date: {{ movie.publishDate }}</b-card-text>
+                <b-card-text>Category: {{ movie.category.name }}</b-card-text>
+                <b-card-text>Status:
+                  {{ movie.status ? "Habilitado" : "Deshabilitado" }}</b-card-text>
+                <b-row class="d-flex flex-row-reverse">
+                  <b-button @click="changeStatus(movie)" class="ml-2">
+                    {{ movie.status ? "Deshabilitar" : "Habilitar" }}</b-button>
+                  <b-button @click="updateMovie(movie)"> Actualizar </b-button>
+                </b-row>
+              </b-card>
+            </transition>
+            </b-col>
+          </transition-group>
         </b-row>
       </b-col>
       <b-col cols="12">
@@ -170,6 +174,11 @@ export default {
       this.$bvModal.show("form");
       this.isNewMovie = true;
       this.resetMovieData();
+
+      this.$nextTick(() => {
+        const newRow = document.querySelector('row');
+        newRow.classList.add('bonce-up-enter')
+      })
     },
     async updateMovie(movie) {
       this.$bvModal.show("form");
@@ -197,7 +206,12 @@ export default {
       this.isLoading = true;
       try {
         const { error: statusUpdated } = await MovieService.changeStatus(movie.id);
-        if (!statusUpdated) this.getMovies();
+        if (!statusUpdated) {
+          setTimeout(() => {
+            movie.status = !movie.status;
+            this.getMovies();
+          }, 500)
+        } 
       } catch (error) {
         console.error(error);
       } finally {
@@ -263,4 +277,40 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.fade-status-enter-active,
+.fade-status-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-status-enter,
+.fade-status-leave-to {
+  opacity: 0;
+}
+
+.zoom-enter-active,
+.zoom-leave-active {
+  transition: transform 0.5s;
+}
+.zoom-enter,
+.zoom-leave-to {
+  transform: scale(0);
+}
+
+.bounce-up-enter-active {
+  animation: bounceUp 0.5s;
+}
+
+@keyframes bounceUp {
+  0% {
+    transform: translateY(100%);
+  }
+  70% {
+    transform: translateY(-10%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+
+</style>
